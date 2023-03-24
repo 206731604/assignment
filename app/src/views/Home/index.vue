@@ -133,10 +133,10 @@ export default {
 			padding: 10px 0;
 		}
 		.shop-box {
-			img {
-				width: auto;
-				height: auto;
-			}
+			// img {
+			// 	width: auto;
+			// 	height: auto;
+			// }
 		}
 	}
 }
