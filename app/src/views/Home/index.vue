@@ -19,7 +19,7 @@
 		<main @scroll="scroll">
 			<van-swipe class="my-swipe" :autoplay="3000" indicator-color="blue">
 				<van-swipe-item v-for="(v, i) in banner" :key="i">
-					<img :src="v.img || v.image" alt="" />
+					<img :src="v.img || v.image" alt="" class="banner" />
 				</van-swipe-item>
 			</van-swipe>
 			<nav>
@@ -31,11 +31,10 @@
 			<div class="shop-box" v-for="(v, i) in shop" :key="i">
 				<div class="shop-title">{{ v.title }}</div>
 				<van-grid square>
-					<van-grid-item
-						v-for="(k, j) in v.items"
-						:key="j"
-						:icon="k.img || k.image"
-						:text="k.title" />
+					<van-grid-item v-for="(k, j) in v.items" :key="j">
+						<van-image :src="k.img || k.image" />
+						<p>{{ k.title }}</p>
+					</van-grid-item>
 				</van-grid>
 			</div>
 		</main>
@@ -121,7 +120,7 @@ export default {
 	main {
 		flex: 1;
 		overflow: auto;
-		img {
+		.banner {
 			width: 100%;
 			height: 100%;
 		}
@@ -133,6 +132,12 @@ export default {
 			padding: 10px 0;
 		}
 		.shop-box {
+			p {
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
 			// img {
 			// 	width: auto;
 			// 	height: auto;
