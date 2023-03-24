@@ -8,3 +8,6 @@ export const nav = async () => {
 export const goodsLevel = async () => {
 	return await ajax.get("/api/home/index/goodsLevel");
 };
+export const list = async () => {
+	return await ajax.get("/api/home/index/recom");
+};

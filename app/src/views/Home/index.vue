@@ -2,7 +2,7 @@
 	<div class="About">
 		<header ref="header">
 			<div>
-				<van-icon name="bars" />
+				<van-icon name="bars" size="30" />
 			</div>
 			<el-input v-model="input" placeholder="请输入宝贝名称"
 				><i slot="prefix" class="el-input__icon el-icon-search"></i
@@ -10,7 +10,7 @@
 			<div>
 				<template v-if="show">
 					<div>
-						<van-icon name="contact" />
+						<van-icon name="contact" size="30" />
 					</div>
 				</template>
 				<template v-else><div>登录</div></template>
@@ -30,27 +30,42 @@
 			</nav>
 			<div class="shop-box" v-for="(v, i) in shop" :key="i">
 				<div class="shop-title">{{ v.title }}</div>
-				<van-grid square>
+				<van-grid>
 					<van-grid-item v-for="(k, j) in v.items" :key="j">
 						<van-image :src="k.img || k.image" />
 						<p>{{ k.title }}</p>
 					</van-grid-item>
 				</van-grid>
 			</div>
+			<div class="list-box">
+				<div class="list-title">
+					<i class="el-icon-circle-plus" style="color: pink"></i
+					>为您推荐
+				</div>
+				<div class="shop">
+					<div v-for="(v, i) in list" :key="i">
+						<img :src="v.image || v.img" alt="" />
+						<div class="message">
+							<div class="title">{{ v.title }}</div>
+							<div class="price">￥{{ v.price }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</main>
 	</div>
 </template>
-
 <script>
-import { banner, nav, goodsLevel } from "@/api";
+import { banner, nav, goodsLevel, list } from "@/api";
 export default {
 	data() {
 		return {
 			banner: [],
-			show: false,
+			show: true,
 			input: "",
 			nav: [],
 			shop: [],
+			list: [],
 		};
 	},
 	created() {
@@ -62,6 +77,9 @@ export default {
 		});
 		goodsLevel().then(res => {
 			this.shop = res.data;
+		});
+		list().then(res => {
+			this.list = res.data;
 		});
 	},
 	methods: {
@@ -76,7 +94,6 @@ export default {
 	},
 };
 </script>
-
 <style lang="less">
 .About {
 	display: flex;
@@ -132,6 +149,11 @@ export default {
 			padding: 10px 0;
 		}
 		.shop-box {
+			margin-top: 15px;
+			.shop-title {
+				padding: 10px 0;
+				background: #fff;
+			}
 			p {
 				display: -webkit-box;
 				-webkit-line-clamp: 1;
@@ -142,6 +164,37 @@ export default {
 			// 	width: auto;
 			// 	height: auto;
 			// }
+		}
+		.list-box {
+			.list-title {
+				text-align: center;
+				margin: 10px 0;
+			}
+			.shop {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				> div {
+					width: 45%;
+					background: #fff;
+					margin-bottom: 10px;
+					padding: 10px 5px 0;
+					img {
+						width: 90%;
+					}
+					.title {
+						text-align: left;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
+						overflow: hidden;
+					}
+					.price {
+						text-align: left;
+						color: red;
+					}
+				}
+			}
 		}
 	}
 }
