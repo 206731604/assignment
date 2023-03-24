@@ -5,5 +5,6 @@ module.exports = defineConfig({
 		host: "localhost",
 		port: "3000",
 		open: true,
+		proxy: "http://vueshop.glbuys.com",
 	},
 });

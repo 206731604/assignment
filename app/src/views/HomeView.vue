@@ -8,6 +8,7 @@
 				<router-link
 					:to="v.path"
 					:class="{ active: v.path == containers }">
+					<van-icon :name="v.icon" size="20" />
 					<p>{{ v.title }}</p>
 				</router-link>
 			</div>
@@ -25,14 +26,17 @@ export default {
 			nav: [
 				{
 					title: "首页",
+					icon: "wap-home-o",
 					path: "/index",
 				},
 				{
 					title: "购物车",
+					icon: "shopping-cart-o",
 					path: "/cart",
 				},
 				{
 					title: "我的",
+					icon: "user-o",
 					path: "/my",
 				},
 			],
@@ -51,15 +55,21 @@ export default {
 	section {
 		flex: 1;
 		overflow: auto;
+		> div {
+			height: 100%;
+			width: 100%;
+		}
 	}
 	footer {
 		display: flex;
 		justify-content: space-around;
+		background: #fff;
 		padding: 5px 0;
+		a {
+			color: #000;
+		}
 		.active {
-			p {
-				color: red;
-			}
+			color: red;
 		}
 	}
 }

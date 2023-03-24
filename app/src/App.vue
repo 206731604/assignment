@@ -11,7 +11,7 @@
 	list-style: none;
 	text-decoration: none;
 	outline: none;
-	color: #000;
+	box-sizing: border-box;
 }
 ::-webkit-scrollbar {
 	display: none;
@@ -21,6 +21,7 @@ body,
 #app {
 	width: 100%;
 	height: 100%;
+	background-color: #efefef;
 }
 #app {
 	font-family: "Avenir", Helvetica, Arial, sans-serif;
