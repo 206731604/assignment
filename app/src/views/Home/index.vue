@@ -1,7 +1,7 @@
 <template>
 	<div class="About">
 		<header ref="header">
-			<div>
+			<div @click="TurnJump()">
 				<van-icon name="bars" size="30" />
 			</div>
 			<el-input v-model="input" placeholder="请输入宝贝名称"
@@ -24,14 +24,19 @@
 			</van-swipe>
 			<nav>
 				<div v-for="(v, i) in nav" :key="i">
-					<img :src="v.img || v.image" alt="" />
-					<p>{{ v.title }}</p>
+					<router-link :to="'/goods/classify/item?cid=' + v.cid">
+						<img :src="v.img || v.image" alt="" />
+						<p>{{ v.title }}</p>
+					</router-link>
 				</div>
 			</nav>
 			<div class="shop-box" v-for="(v, i) in shop" :key="i">
 				<div class="shop-title">{{ v.title }}</div>
 				<van-grid>
-					<van-grid-item v-for="(k, j) in v.items" :key="j">
+					<van-grid-item
+						v-for="(k, j) in v.items"
+						:key="j"
+						@click="jump(k.gid)">
 						<van-image :src="k.img || k.image" />
 						<p>{{ k.title }}</p>
 					</van-grid-item>
@@ -43,7 +48,7 @@
 					>为您推荐
 				</div>
 				<div class="shop">
-					<div v-for="(v, i) in list" :key="i">
+					<div v-for="(v, i) in list" :key="i" @click="jump(v.gid)">
 						<img :src="v.image || v.img" alt="" />
 						<div class="message">
 							<div class="title">{{ v.title }}</div>
@@ -61,7 +66,7 @@ export default {
 	data() {
 		return {
 			banner: [],
-			show: true,
+			show: false,
 			input: "",
 			nav: [],
 			shop: [],
@@ -69,6 +74,7 @@ export default {
 		};
 	},
 	created() {
+		this.show = localStorage.token ? true : false;
 		banner().then(res => {
 			this.banner = res.data;
 		});
@@ -91,6 +97,17 @@ export default {
 				this.$refs.header.className = "";
 			}
 		},
+		TurnJump(cid) {
+			this.$router.push("/goods/classify/item");
+		},
+		jump(gid) {
+			let name = this.$route.name;
+			this.$router.push({
+				name: "/goods/details/item",
+				params: { path: name },
+				query: { gid },
+			});
+		},
 	},
 };
 </script>
@@ -103,7 +120,7 @@ export default {
 		display: flex;
 		align-items: center;
 		position: absolute;
-		padding: 5px 0;
+		padding: 0.1333rem 0;
 		z-index: 99;
 		color: #fff;
 		background: -webkit-gradient(
@@ -118,7 +135,7 @@ export default {
 		left: 0;
 		top: 0;
 		> div {
-			padding: 0 5px;
+			padding: 0 0.1333rem;
 			div {
 				white-space: nowrap;
 			}
@@ -146,12 +163,21 @@ export default {
 			justify-content: space-around;
 			align-items: center;
 			background: #fff;
-			padding: 10px 0;
+			margin-top: 0.2667rem;
+			padding: 0.2667rem 0;
+			div {
+				flex: none;
+				width: 20%;
+				img {
+					width: 100%;
+					height: 100%;
+				}
+			}
 		}
 		.shop-box {
-			margin-top: 15px;
+			margin-top: 0.4rem;
 			.shop-title {
-				padding: 10px 0;
+				padding: 0.2667rem 0;
 				background: #fff;
 			}
 			p {
@@ -168,7 +194,7 @@ export default {
 		.list-box {
 			.list-title {
 				text-align: center;
-				margin: 10px 0;
+				margin: 0.2667rem 0;
 			}
 			.shop {
 				display: flex;
@@ -178,7 +204,7 @@ export default {
 					width: 45%;
 					background: #fff;
 					margin-bottom: 10px;
-					padding: 10px 5px 0;
+					padding: 0.2667rem 0.1333rem 0;
 					img {
 						width: 90%;
 					}

@@ -2,9 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import user from "./user";
-
 Vue.use(VueRouter);
-
+// /goods/classify/item
 const routes = [
 	{
 		path: "/",
@@ -12,6 +11,48 @@ const routes = [
 		component: HomeView,
 		children: user,
 		redirect: "/index",
+	},
+	{
+		path: "/goods",
+		component: () => import("@/views/goods"),
+		children: [
+			{
+				path: "/goods/classify",
+				name: "/goods/classify",
+				component: () => import("@/views/goods/classify"),
+				redirect: "/goods/classify/item",
+				children: [
+					{
+						path: "/goods/classify/item",
+						name: "/goods/classify/item",
+						component: () => import("@/views/goods/classify/item"),
+					},
+				],
+			},
+			{
+				path: "/goods/details",
+				name: "/goods/details",
+				component: () => import("@/views/goods/details"),
+				children: [
+					{
+						path: "/goods/details/item",
+						name: "/goods/details/item",
+						component: () => import("@/views/goods/details/item"),
+					},
+					{
+						path: "/goods/details/content",
+						name: "/goods/details/content",
+						component: () =>
+							import("@/views/goods/details/content"),
+					},
+					{
+						path: "/goods/details/review",
+						name: "/goods/details/review",
+						component: () => import("@/views/goods/details/review"),
+					},
+				],
+			},
+		],
 	},
 	{
 		path: "/about",

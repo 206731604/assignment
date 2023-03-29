@@ -43,6 +43,11 @@ export default {
 			containers: "/index",
 		};
 	},
+	watch: {
+		$route: function (newVal, oldVal) {
+			this.containers = newVal.fullPath;
+		},
+	},
 	created() {
 		this.containers = this.$route.path;
 	},

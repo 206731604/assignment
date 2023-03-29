@@ -16,7 +16,7 @@
 <script>
 export default {
 	data() {
-		return {};
+		return { checked: false };
 	},
 	methods: {
 		onSubmit() {},
@@ -30,7 +30,7 @@ export default {
 	flex-direction: column;
 	header {
 		background: #fff;
-		padding: 10px 0;
+		padding: 0.2667rem 0;
 	}
 	main {
 		flex: 1;
