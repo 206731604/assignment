@@ -27,3 +27,13 @@ export const spec = async gid => {
 		params: { gid },
 	});
 };
+export const reviews = async params => {
+	return await ajax.get("/api/home/reviews/index", {
+		params,
+	});
+};
+export const fav = async params => {
+	return await ajax.get("/api/goods/fav", {
+		params,
+	});
+};

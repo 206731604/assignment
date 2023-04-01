@@ -1,6 +1,14 @@
 <template>
 	<div class="cart">
-		<header>购物车</header>
+		<header>
+			<div class="icon" @click="jump" v-show="show">
+				<van-icon name="arrow-left" />
+			</div>
+			<div class="title">购物车</div>
+			<div class="icon" style="opacity: 0" v-show="show">
+				<van-icon name="arrow-left" />
+			</div>
+		</header>
 		<main></main>
 		<footer>
 			<van-submit-bar :price="3050" @submit="onSubmit">
@@ -16,10 +24,24 @@
 <script>
 export default {
 	data() {
-		return { checked: false };
+		return { checked: false, show: true };
+	},
+	created() {
+		this.show = !(JSON.stringify(this.$route.query) == "{}");
 	},
 	methods: {
 		onSubmit() {},
+		jump() {
+			this.$router.push({
+				name: this.$route.query.form,
+				params: {
+					path: this.$route.params.path,
+				},
+				query: {
+					gid: this.$route.params.gid,
+				},
+			});
+		},
 	},
 };
 </script>
@@ -30,7 +52,16 @@ export default {
 	flex-direction: column;
 	header {
 		background: #fff;
-		padding: 0.2667rem 0;
+		padding: 0.2667rem 0.2667rem;
+		display: flex;
+		font-size: 0.5333rem;
+		align-items: center;
+		.title {
+			flex: 1;
+			text-align: center;
+		}
+		justify-content: space-between;
+		border-bottom: 1px solid #ccc;
 	}
 	main {
 		flex: 1;

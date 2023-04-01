@@ -61,8 +61,13 @@ export default {
 			this.cid = this.$route.query.cid;
 			this.show(this.$route.query.cid);
 		} else {
-			this.show("492");
+			this.show();
 		}
+	},
+	watch: {
+		$route: function (newVal, oldVal) {
+			console.log(newVal);
+		},
 	},
 	methods: {
 		show(cid) {
@@ -94,7 +99,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .item {
 	display: flex;
 	flex-direction: column;

@@ -11,7 +11,11 @@
 					{{ v.title }}
 				</div>
 			</nav>
-			<div class="icon"><van-icon name="cart-o" /></div>
+			<div class="icon" @click="GoCart">
+				<el-badge is-dot :hidden="!cart.length">
+					<van-icon name="cart-o" />
+				</el-badge>
+			</div>
 		</header>
 		<main>
 			<router-view />
@@ -40,9 +44,16 @@ export default {
 			],
 			gid: "",
 			params: "",
+			cart: [{}],
 		};
 	},
+	watch: {
+		$route: function (newVal, oldVal) {
+			this.path = newVal.name;
+		},
+	},
 	created() {
+		this.cart = JSON.stringify(localStorage.cart) || [];
 		this.params = this.$route.params.path;
 		this.gid = this.$route.query.gid;
 		this.path = this.$route.name;
@@ -52,7 +63,7 @@ export default {
 			this.path = path;
 			this.$router.push({
 				name: path,
-				params: { path },
+				params: { path: this.params },
 				query: { gid: this.gid },
 			});
 		},
@@ -63,6 +74,20 @@ export default {
 				this.$router.push("/");
 			}
 		},
+		GoCart() {
+			this.$router.push({
+				name: "/cart",
+				params: { path: this.params, gid: this.gid },
+				query: { form: this.$route.name },
+			});
+		},
+	},
+	mounted() {
+		window.addEventListener("localStorage", event => {
+			// if (event.key === "historyPicModal") {
+			console.log(event);
+			// }
+		});
 	},
 };
 </script>

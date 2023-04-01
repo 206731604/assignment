@@ -9,11 +9,11 @@
 			></el-input>
 			<div>
 				<template v-if="show">
-					<div>
+					<div @click="user">
 						<van-icon name="contact" size="30" />
 					</div>
 				</template>
-				<template v-else><div>登录</div></template>
+				<template v-else><div @click="login">登录</div></template>
 			</div>
 		</header>
 		<main @scroll="scroll">
@@ -101,11 +101,20 @@ export default {
 			this.$router.push("/goods/classify/item");
 		},
 		jump(gid) {
-			let name = this.$route.name;
+			let name = this.$route.path;
 			this.$router.push({
 				name: "/goods/details/item",
 				params: { path: name },
 				query: { gid },
+			});
+		},
+		user() {
+			this.$router.push("/my");
+		},
+		login() {
+			this.$router.push({
+				name: "/login",
+				params: { path: this.$route.name },
 			});
 		},
 	},
@@ -168,6 +177,9 @@ export default {
 			div {
 				flex: none;
 				width: 20%;
+				a {
+					color: #000;
+				}
 				img {
 					width: 100%;
 					height: 100%;

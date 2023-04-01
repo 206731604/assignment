@@ -30,7 +30,7 @@
 					<div class="title">{{ v.title }}</div>
 					<div :class="['icon', v.icon]"></div>
 				</div>
-				<button>{{ ButtonText }}</button>
+				<button @click="loggingStatus">{{ ButtonText }}</button>
 			</div>
 		</main>
 	</div>
@@ -94,6 +94,28 @@ export default {
 		this.title = localStorage.token
 			? JSON.parse(localStorage.user).nickname
 			: "昵称";
+	},
+	methods: {
+		loggingStatus() {
+			if (this.ButtonText == "登录/注册") {
+				this.$router.push({
+					name: "/login",
+					params: { path: this.$route.name },
+				});
+				this.ButtonText = "安全退出";
+			} else if (this.ButtonText == "安全退出") {
+				Dialog.confirm({
+					title: "标题",
+					message: "弹窗内容",
+				})
+					.then(() => {
+						// on confirm
+					})
+					.catch(() => {
+						// on cancel
+					});
+			}
+		},
 	},
 };
 </script>

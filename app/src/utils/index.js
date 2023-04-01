@@ -15,8 +15,20 @@ http.interceptors.request.use(config => {
 	}
 	return config;
 });
-http.interceptors.response.use(response => {
-	let { data } = response;
-	return data;
-});
+http.interceptors.response.use(
+	response => {
+		let { data } = response;
+		return data;
+	},
+	error => {
+		if (error.code == "ECONNABORTED" && error.message.includes("timeout")) {
+			error.config.num = (error.config.num || 0) + 1;
+			error.config.timeout = error.config.timeout * 2;
+			if (error.config.num > 2) {
+				return Promise.reject(error);
+			}
+			return http(error.config);
+		}
+	}
+);
 export default http;
