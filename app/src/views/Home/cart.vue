@@ -9,7 +9,25 @@
 				<van-icon name="arrow-left" />
 			</div>
 		</header>
-		<main></main>
+		<main>
+			<van-card :title="v.title" v-for="(v, i) in cart" :key="i">
+				<template v-slot:thumb>
+					<van-checkbox v-model="v.check">
+						<img :src="v.img || v.image[0] || v.image[1]" alt="" />
+						<p>删除</p>
+					</van-checkbox>
+				</template>
+				<template v-slot:desc>
+					<span v-for="(k, j) in v.suk" :key="j">
+						{{ k.title }}: {{ k.value }}
+					</span>··
+				</template>
+				<template v-slot:num>
+
+					 </template>
+				<template v-slot:price>￥{{ v.price }} </template>
+			</van-card>
+		</main>
 		<footer>
 			<van-submit-bar :price="3050" @submit="onSubmit">
 				<van-checkbox v-model="checked">全选</van-checkbox>
@@ -24,10 +42,16 @@
 <script>
 export default {
 	data() {
-		return { checked: false, show: true };
+		return {
+			checked: false,
+			show: true,
+			cart: [],
+		};
 	},
 	created() {
 		this.show = !(JSON.stringify(this.$route.query) == "{}");
+		this.cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
+		console.log(this.cart);
 	},
 	methods: {
 		onSubmit() {},

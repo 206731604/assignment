@@ -13,35 +13,39 @@
 			<el-form
 				:model="dynamicValidateForm"
 				ref="dynamicValidateForm"
-				label-width="100px"
 				class="demo-dynamic">
 				<el-form-item
-					prop="email"
+					prop="cellphone"
 					:rules="[
 						{
 							required: true,
-							message: '请输入邮箱地址',
+							message: '请输入手机号',
 							trigger: 'blur',
 						},
 						{
-							type: 'email',
-							message: '请输入正确的邮箱地址',
-							trigger: ['blur', 'change'],
+							pattern: /^1[3-9]\d{9}$/,
+							message: '请输入正确的手机号',
+							trigger: ['blur'],
 						},
 					]">
-					<el-input v-model="dynamicValidateForm.email"></el-input>
+					<el-input
+						v-model="dynamicValidateForm.cellphone"
+						placeholder="请输入手机号"></el-input>
 				</el-form-item>
 				<el-form-item
-					prop="value"
+					prop="password"
 					:rules="{
-						message: '域名不能为空',
+						message: '密码不能为空',
 						trigger: 'blur',
 					}">
-					<el-input v-model="dynamicValidateForm.value"></el-input>
+					<el-input
+						v-model="dynamicValidateForm.password"
+						placeholder="请输入密码"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button
-						type="primary"
+						style="width: 100%"
+						type="danger"
 						@click="submitForm('dynamicValidateForm')"
 						>提交</el-button
 					>
@@ -52,14 +56,14 @@
 </template>
 
 <script>
+import { Login } from "@/api";
 export default {
 	data() {
 		return {
 			show: true,
 			dynamicValidateForm: {
-				value: "",
-
-				email: "",
+				password: "",
+				cellphone: "",
 			},
 		};
 	},
@@ -73,7 +77,15 @@ export default {
 		submitForm(formName) {
 			this.$refs[formName].validate(valid => {
 				if (valid) {
-					alert("submit!");
+					Login(this.dynamicValidateForm).then(res => {
+						localStorage.token = res.data.auth_token;
+						localStorage.nickname = res.data.nickname;
+						localStorage.uid = res.data.uid;
+						this.$router.push({
+							name: this.$route.params.path,
+						});
+						console.log(this.$route);
+					});
 				} else {
 					console.log("error submit!!");
 					return false;
@@ -88,6 +100,7 @@ export default {
 .login {
 	display: flex;
 	flex-direction: column;
+	background: #fff;
 	header {
 		background: #fff;
 		padding: 0.2667rem 0.2667rem;
@@ -103,6 +116,7 @@ export default {
 	}
 	main {
 		flex: 1;
+		padding: 10px 20px;
 	}
 }
 </style>

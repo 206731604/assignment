@@ -203,6 +203,7 @@ export default {
 						sales: this.sales,
 						freight: this.freight,
 						suk: this.activeSuk,
+						check: false,
 					});
 				}
 			} else {
@@ -215,6 +216,7 @@ export default {
 					sales: this.sales,
 					freight: this.freight,
 					suk: this.activeSuk,
+					check: false,
 				});
 			}
 			localStorage.cart = JSON.stringify(this.cart);
@@ -320,7 +322,7 @@ export default {
 		right: 0;
 		.icon-box {
 			position: absolute;
-			top: -0.7467rem;
+			top: -0.8533rem;
 			right: 0.1333rem;
 			display: flex;
 			align-items: center;
@@ -328,6 +330,7 @@ export default {
 			.icon {
 				background: #fff;
 				border-radius: 50%;
+				padding: 0.0533rem;
 				font-weight: 700;
 			}
 			.line {
@@ -348,7 +351,7 @@ export default {
 			.left {
 				position: relative;
 				margin: 0.2667rem;
-				width: 2.4rem;
+				width: 1.8667rem;
 				height: 1.3333rem;
 				img {
 					position: absolute;
@@ -417,20 +420,20 @@ export default {
 	animation: bounce-out 0s;
 }
 .bounce-leave-active {
-	animation: bounce-in 2s linear;
+	animation: bounce-in 1s linear;
 }
 @keyframes bounce-in {
 	100% {
-		transform: translate(9.0667rem, -10.1333rem) rotate(3600deg);
+		transform: translate(8.2667rem, -11.2rem) rotate(3600deg) scale(-1);
 		display: none;
 	}
 	0% {
-		transform: translate(0px, 0px);
+		transform: translate(0px, 0px) rotate(0deg) scale(1);
 	}
 }
 @keyframes bounce-out {
 	0% {
-		transform: translate(9.0667rem, -10.1333rem) rotate(3600deg);
+		transform: translate(9.0667rem, -10.1333rem) rotate(3600deg) scale(1, 1);
 	}
 	100% {
 		transform: translate(0px, 0px);

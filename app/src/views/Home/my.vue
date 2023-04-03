@@ -38,6 +38,7 @@
 
 <script>
 import head from "@/assets/head.png";
+import { user } from "@/api";
 export default {
 	data() {
 		return {
@@ -88,12 +89,11 @@ export default {
 	},
 	created() {
 		this.ButtonText = localStorage.token ? "安全退出" : "登录/注册";
-		this.headPortrait = localStorage.token
-			? JSON.parse(localStorage.user).head
-			: head;
-		this.title = localStorage.token
-			? JSON.parse(localStorage.user).nickname
-			: "昵称";
+		this.title = localStorage.token ? localStorage.nickname : "昵称";
+		user(localStorage.uid).then(res => {
+			this.integral = res.data.points;
+			this.headPortrait = localStorage.token ? res.data.head : head;
+		});
 	},
 	methods: {
 		loggingStatus() {
@@ -140,6 +140,16 @@ export default {
 			padding: 0 0.5333rem;
 			justify-content: flex-start;
 			align-items: center;
+			.img-box {
+				border-radius: 50%;
+				width: 2.1333rem;
+				height: 2.1333rem;
+				img {
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+				}
+			}
 			.message {
 				padding: 0 0.2667rem;
 				text-align: left;

@@ -2,6 +2,12 @@ import ajax from "../utils";
 export const banner = async () => {
 	return await ajax.get("/api/home/index/slide");
 };
+export const Login = async data => {
+	return await ajax.post("/api/home/user/pwdlogin", data);
+};
+export const user = async id => {
+	return await ajax.get("/api/user/myinfo/userinfo/uid/" + id);
+};
 export const nav = async () => {
 	return await ajax.get("/api/home/index/nav");
 };
