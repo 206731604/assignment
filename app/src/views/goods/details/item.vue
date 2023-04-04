@@ -95,7 +95,11 @@
 						</div>
 					</div>
 				</div>
-				<van-button color="red" block @click="addCart">确定</van-button>
+				<div class="btn-box">
+					<van-button color="red" block @click="addCart"
+						>确定</van-button
+					>
+				</div>
 			</div>
 		</van-overlay>
 	</div>
@@ -123,12 +127,11 @@ export default {
 		};
 	},
 	created() {
-		// console.log(JSON.parse(localStorage.getItem("cart")));
-		try {
-			this.cart = JSON.parse(localStorage.cart) || [];
-		} catch (error) {
-			this.cart = [];
-		}
+		// try {
+		this.cart = JSON.parse(localStorage.getItem("cart")) || [];
+		// } catch (error) {
+		// 	this.cart = [];
+		// }
 		info(this.$route.query.gid).then(res => {
 			this.image = res.data.images;
 			this.gid = res.data.gid;
@@ -189,7 +192,17 @@ export default {
 				}
 			}
 			this.cartoonShow = !this.cartoonShow;
-			let index = this.cart.findIndex(v => v.gid == this.gid);
+			try {
+				this.cart = JSON.parse(localStorage.cart);
+			} catch (error) {
+				this.cart = [];
+			}
+			let index = this.cart.findIndex(v => {
+				return (
+					v.gid == this.gid &&
+					JSON.stringify(v.suk) == JSON.stringify(this.activeSuk)
+				);
+			});
 			if (this.cart.length) {
 				if (index != -1) {
 					this.cart[index].num += this.value * 1;
@@ -203,7 +216,7 @@ export default {
 						sales: this.sales,
 						freight: this.freight,
 						suk: this.activeSuk,
-						check: false,
+						check: true,
 					});
 				}
 			} else {
@@ -216,11 +229,10 @@ export default {
 					sales: this.sales,
 					freight: this.freight,
 					suk: this.activeSuk,
-					check: false,
+					check: true,
 				});
 			}
 			localStorage.cart = JSON.stringify(this.cart);
-			// localStorage.setItem("cart", JSON.stringify(this.cart));
 		},
 		fav() {
 			fav({ uid: localStorage.uid, gid: this.gid }).then(res => {
@@ -315,14 +327,15 @@ export default {
 		}
 	}
 	.suk-box {
-		background: #fff;
+		background-color: #f5f5f9;
 		position: absolute;
+		top: 40%;
 		bottom: 0;
 		left: 0;
 		right: 0;
 		.icon-box {
 			position: absolute;
-			top: -0.8533rem;
+			top: -1.2rem;
 			right: 0.1333rem;
 			display: flex;
 			align-items: center;
@@ -334,8 +347,8 @@ export default {
 				font-weight: 700;
 			}
 			.line {
-				height: 0.5333rem;
-				width: 0.0533rem;
+				height: 0.9333rem;
+				width: 0.0267rem;
 				background: #fff;
 			}
 			.point {
@@ -348,6 +361,7 @@ export default {
 		.shop-message {
 			display: flex;
 			border-bottom: 1px solid #ccc;
+			background: #fff;
 			.left {
 				position: relative;
 				margin: 0.2667rem;
@@ -387,7 +401,8 @@ export default {
 			}
 		}
 		.information-box {
-			margin: 0.2667rem 0.4rem;
+			padding: 0.2667rem 0.4rem;
+			background: #fff;
 			.title {
 				font-size: 0.4267rem;
 				text-align: left;
@@ -409,10 +424,17 @@ export default {
 		}
 		.purchase-num {
 			display: flex;
+			background: #fff;
 			justify-content: space-between;
-			margin: 0.2667rem 0.5333rem;
+			padding: 0.2667rem 0.5333rem;
 			align-items: center;
 			font-size: 0.4267rem;
+		}
+		.btn-box {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
 		}
 	}
 }
@@ -424,11 +446,11 @@ export default {
 }
 @keyframes bounce-in {
 	100% {
-		transform: translate(8.2667rem, -11.2rem) rotate(3600deg) scale(-1);
+		transform: translate(7.6rem, -7.8667rem) rotate(3600deg) scale(-1);
 		display: none;
 	}
 	0% {
-		transform: translate(0px, 0px) rotate(0deg) scale(1);
+		transform: translate(0px, 0px) rotate(0deg);
 	}
 }
 @keyframes bounce-out {

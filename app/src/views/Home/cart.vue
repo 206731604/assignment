@@ -12,7 +12,10 @@
 		<main>
 			<van-card :title="v.title" v-for="(v, i) in cart" :key="i">
 				<template v-slot:thumb>
-					<van-checkbox v-model="v.check">
+					<van-checkbox
+						@click="radioCheck(v)"
+						v-model="v.check"
+						checked-color="red">
 						<img :src="v.img || v.image[0] || v.image[1]" alt="" />
 						<p>删除</p>
 					</van-checkbox>
@@ -20,17 +23,26 @@
 				<template v-slot:desc>
 					<span v-for="(k, j) in v.suk" :key="j">
 						{{ k.title }}: {{ k.value }}
-					</span>··
+					</span>
 				</template>
 				<template v-slot:num>
-
-					 </template>
+					<van-stepper
+						v-model="v.num"
+						min="1"
+						:name="i"
+						@change="Change" />
+				</template>
 				<template v-slot:price>￥{{ v.price }} </template>
 			</van-card>
 		</main>
 		<footer>
-			<van-submit-bar :price="3050" @submit="onSubmit">
-				<van-checkbox v-model="checked">全选</van-checkbox>
+			<van-submit-bar
+				:price="30500"
+				decimal-length="1"
+				@submit="onSubmit">
+				<van-checkbox v-model="checked" checked-color="red"
+					>全选</van-checkbox
+				>
 				<template v-slot:button>
 					<van-button type="danger" disabled>去结算</van-button>
 				</template>
@@ -50,8 +62,8 @@ export default {
 	},
 	created() {
 		this.show = !(JSON.stringify(this.$route.query) == "{}");
-		this.cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
-		console.log(this.cart);
+		this.cart = JSON.parse(localStorage?.cart) || [];
+		// console.log(this.cart);
 	},
 	methods: {
 		onSubmit() {},
@@ -66,6 +78,26 @@ export default {
 				},
 			});
 		},
+		Change(val, { name }) {
+			this.cart[name].num = val;
+			localStorage.cart = JSON.stringify(this.cart);
+		},
+		radioCheck(item) {
+			let index = this.cart.findIndex(v => {
+				return (
+					v.gid == item.gid &&
+					JSON.stringify(v.suk) == JSON.stringify(item.suk)
+				);
+			});
+			this.cart[index].check = this.cart[index].check;
+			localStorage.cart = JSON.stringify(this.cart);
+		},
+	},
+	watch: {
+		cart: function (newVal, oldVal) {
+			console.log(newVal);
+		},
+		deep: true,
 	},
 };
 </script>
@@ -74,6 +106,7 @@ export default {
 .cart {
 	display: flex;
 	flex-direction: column;
+	text-align: left;
 	header {
 		background: #fff;
 		padding: 0.2667rem 0.2667rem;
@@ -90,15 +123,22 @@ export default {
 	main {
 		flex: 1;
 		overflow: auto;
+		img {
+			width: 100%;
+		}
+		p {
+			text-align: center;
+		}
+	}
+	footer {
+		position: relative;
 	}
 }
-footer {
-	position: relative;
-}
+
 .van-submit-bar {
 	position: absolute;
 }
 .van-submit-bar__bar {
-	padding: 0;
+	padding: 0 0 0 0.2667rem;
 }
 </style>
