@@ -102,7 +102,6 @@ export default {
 					name: "/login",
 					params: { path: this.$route.name },
 				});
-				this.ButtonText = "安全退出";
 			} else if (this.ButtonText == "安全退出") {
 				this.$dialog
 					.confirm({
@@ -134,7 +133,8 @@ export default {
 		.head-box {
 			background: url(http://vueshop.glbuys.com/assets/img/mybg.7627611d.png)
 				no-repeat;
-			background-size: cover;
+			background-size: 100%;
+			background-position: top;
 			height: 3.7333rem;
 			display: flex;
 			padding: 0 0.5333rem;

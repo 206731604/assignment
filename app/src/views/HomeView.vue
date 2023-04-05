@@ -69,7 +69,7 @@ export default {
 		display: flex;
 		justify-content: space-around;
 		background: #fff;
-		padding: 5px 0;
+		padding: .1333rem 0;
 		a {
 			color: #000;
 		}
