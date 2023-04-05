@@ -104,12 +104,12 @@ export default {
 				});
 				this.ButtonText = "安全退出";
 			} else if (this.ButtonText == "安全退出") {
-				Dialog.confirm({
-					title: "标题",
-					message: "弹窗内容",
-				})
+				this.$dialog
+					.confirm({
+						message: "确认要退出吗？",
+					})
 					.then(() => {
-						// on confirm
+						localStorage.removeItem("token");
 					})
 					.catch(() => {
 						// on cancel
