@@ -37,10 +37,13 @@
 		</main>
 		<footer>
 			<van-submit-bar
-				:price="30500"
+				:price="price"
 				decimal-length="1"
 				@submit="onSubmit">
-				<van-checkbox v-model="checked" checked-color="red"
+				<van-checkbox
+					v-model="checked"
+					@click="checkAll"
+					checked-color="red"
 					>全选</van-checkbox
 				>
 				<template v-slot:button>
@@ -64,6 +67,21 @@ export default {
 		this.show = !(JSON.stringify(this.$route.query) == "{}");
 		this.cart = JSON.parse(localStorage?.cart) || [];
 		// console.log(this.cart);
+		this.checked = this.cart.every(v => v.check);
+	},
+	computed: {
+		price() {
+			let price = 0;
+			this.cart.forEach(v => {
+				if (v.check) {
+					price += v.price * v.num;
+				}
+			});
+			price = price.toFixed(2);
+			price = `${price}`.split(".").join("");
+			console.log(price);
+			return price * 1;
+		},
 	},
 	methods: {
 		onSubmit() {},
@@ -90,12 +108,21 @@ export default {
 				);
 			});
 			this.cart[index].check = this.cart[index].check;
+			this.checked = this.cart.every(v => v.check);
+			localStorage.cart = JSON.stringify(this.cart);
+		},
+		checkAll() {
+			this.checked = !this.checked;
+			this.checked = !this.checked;
+			this.cart.forEach(v => {
+				v.check = this.checked;
+			});
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 	},
 	watch: {
 		cart: function (newVal, oldVal) {
-			console.log(newVal);
+			// console.log(newVal);
 		},
 		deep: true,
 	},
@@ -136,7 +163,7 @@ export default {
 }
 
 .van-submit-bar {
-	position: absolute;
+	position: relative;
 }
 .van-submit-bar__bar {
 	padding: 0 0 0 0.2667rem;
