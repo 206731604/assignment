@@ -15,9 +15,10 @@
 					<van-checkbox
 						@click="radioCheck(v)"
 						v-model="v.check"
-						checked-color="red">
+						checked-color="red"
+					>
 						<img :src="v.img || v.image[0] || v.image[1]" alt="" />
-						<p>删除</p>
+						<p @click.stop="del(v)">删除</p>
 					</van-checkbox>
 				</template>
 				<template v-slot:desc>
@@ -30,7 +31,8 @@
 						v-model="v.num"
 						min="1"
 						:name="i"
-						@change="Change" />
+						@change="Change"
+					/>
 				</template>
 				<template v-slot:price>￥{{ v.price }} </template>
 			</van-card>
@@ -39,7 +41,8 @@
 			<van-submit-bar
 				:price="price"
 				decimal-length="1"
-				@submit="onSubmit">
+				@submit="onSubmit"
+			>
 				<van-checkbox
 					v-model="checked"
 					@click="checkAll"
@@ -67,12 +70,14 @@ export default {
 		this.show = !(JSON.stringify(this.$route.query) == "{}");
 		this.cart = JSON.parse(localStorage?.cart) || [];
 		// console.log(this.cart);
-		this.checked = this.cart.every(v => v.check);
+		this.checked = this.cart.length
+			? this.cart.every((v) => v.check)
+			: false;
 	},
 	computed: {
 		price() {
 			let price = 0;
-			this.cart.forEach(v => {
+			this.cart.forEach((v) => {
 				if (v.check) {
 					price += v.price * v.num;
 				}
@@ -101,22 +106,29 @@ export default {
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 		radioCheck(item) {
-			let index = this.cart.findIndex(v => {
+			let index = this.cart.findIndex((v) => {
 				return (
 					v.gid == item.gid &&
 					JSON.stringify(v.suk) == JSON.stringify(item.suk)
 				);
 			});
 			this.cart[index].check = this.cart[index].check;
-			this.checked = this.cart.every(v => v.check);
+			this.checked = this.cart.every((v) => v.check);
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 		checkAll() {
 			this.checked = !this.checked;
 			this.checked = !this.checked;
-			this.cart.forEach(v => {
+			this.cart.forEach((v) => {
 				v.check = this.checked;
 			});
+			localStorage.cart = JSON.stringify(this.cart);
+		},
+		del(value) {
+			let index = this.cart.findIndex(
+				(v) => JSON.stringify(v) == JSON.stringify(value)
+			);
+			this.cart.splice(index, 1);
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 	},
@@ -134,37 +146,54 @@ export default {
 	display: flex;
 	flex-direction: column;
 	text-align: left;
+
 	header {
 		background: #fff;
 		padding: 0.2667rem 0.2667rem;
 		display: flex;
 		font-size: 0.5333rem;
 		align-items: center;
+
 		.title {
 			flex: 1;
 			text-align: center;
 		}
+
 		justify-content: space-between;
 		border-bottom: 1px solid #ccc;
 	}
+
 	main {
 		flex: 1;
 		overflow: auto;
+
 		img {
 			width: 100%;
 		}
+
 		p {
 			text-align: center;
 		}
 	}
+
 	footer {
 		position: relative;
 	}
 }
 
+.van-card {
+	background: #fff;
+}
+
 .van-submit-bar {
 	position: relative;
 }
+
+.van-card__thumb {
+	height: auto;
+	background: #fff;
+}
+
 .van-submit-bar__bar {
 	padding: 0 0 0 0.2667rem;
 }

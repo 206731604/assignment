@@ -13,6 +13,8 @@
 		"core-js": "^3.8.3",
 		"element-ui": "^2.15.13",
 		"lib-flexible": "^0.3.2",
+		"stylus": "^0.59.0",
+		"stylus-loader": "^7.1.0",
 		"vant": "^2.12.54",
 		"vue": "^2.6.14",
 		"vue-router": "^2.8.1",

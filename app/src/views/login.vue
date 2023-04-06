@@ -96,7 +96,8 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+
 .login {
 	display: flex;
 	flex-direction: column;
