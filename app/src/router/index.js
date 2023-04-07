@@ -56,6 +56,56 @@ const routes = [
 		],
 	},
 	{
+		path: "/user",
+		name: "/user",
+		component: () => import("@/views/user"),
+		children: [
+			{
+				path: "/user/order",
+				name: "/user/order",
+				component: () => import("@/views/user/order"),
+				redirect: "/user/order/list",
+				children: [
+					{
+						path: "/user/order/list",
+						name: "/user/order/list",
+						component: () => import("@/views/user/order/list"),
+					},
+					{
+						path: "/user/order/review",
+						name: "/user/order/review",
+						component: () => import("@/views/user/order/review"),
+					},
+				],
+			},
+			{
+				path: "/user/profile",
+				name: "/user/profile",
+				component: () => import("@/views/user/profile"),
+			},
+			{
+				path: "/user/address",
+				name: "/user/address",
+				component: () => import("@/views/user/address"),
+			},
+			{
+				path: "/user/bind_cellphone",
+				name: "/user/bind_cellphone",
+				component: () => import("@/views/user/cellphone"),
+			},
+			{
+				path: "/user/mod_password",
+				name: "/user/mod_password",
+				component: () => import("@/views/user/password"),
+			},
+			{
+				path: "/user/fav",
+				name: "/user/fav",
+				component: () => import("@/views/user/fav"),
+			},
+		],
+	},
+	{
 		path: "/about",
 		name: "about",
 		// route level code-splitting

@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			<div class="list-box">
-				<div v-for="(v, i) in list" :key="i">
+				<div v-for="(v, i) in list" :key="i" @click="jump(v.path)">
 					<div class="title">{{ v.title }}</div>
 					<div :class="['icon', v.icon]"></div>
 				</div>
@@ -61,28 +61,34 @@ export default {
 					icon: "el-icon-orange",
 					title: "待评价",
 					status: 2,
+					path: "/user/order/review",
 				},
 			],
 			list: [
 				{
 					icon: "el-icon-arrow-right",
 					title: "个人资料",
+					path: "/user/profile",
 				},
 				{
 					icon: "el-icon-arrow-right",
 					title: "收货地址",
+					path: "/user/address",
 				},
 				{
 					icon: "el-icon-arrow-right",
 					title: "绑定手机",
+					path: "/user/bind_cellphone",
 				},
 				{
 					icon: "el-icon-arrow-right",
 					title: "修改密码",
+					path: "/user/mod_password",
 				},
 				{
 					icon: "el-icon-arrow-right",
 					title: "我的收藏",
+					path: "/user/fav",
 				},
 			],
 		};
@@ -115,11 +121,19 @@ export default {
 					});
 			}
 		},
+		jump(path) {
+			this.$router.push({
+				name: path,
+				params: {
+					back: this.$route.path,
+				},
+			});
+		},
 	},
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .my {
 	display: flex;
 	flex-direction: column;
@@ -182,6 +196,7 @@ export default {
 				display: flex;
 				justify-content: space-between;
 				padding: 0.2667rem;
+				color: #000;
 				.title {
 					margin-left: 0.5333rem;
 				}

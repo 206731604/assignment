@@ -15,8 +15,7 @@
 					<van-checkbox
 						@click="radioCheck(v)"
 						v-model="v.check"
-						checked-color="red"
-					>
+						checked-color="red">
 						<img :src="v.img || v.image[0] || v.image[1]" alt="" />
 						<p @click.stop="del(v)">删除</p>
 					</van-checkbox>
@@ -31,8 +30,7 @@
 						v-model="v.num"
 						min="1"
 						:name="i"
-						@change="Change"
-					/>
+						@change="Change" />
 				</template>
 				<template v-slot:price>￥{{ v.price }} </template>
 			</van-card>
@@ -41,8 +39,7 @@
 			<van-submit-bar
 				:price="price"
 				decimal-length="1"
-				@submit="onSubmit"
-			>
+				@submit="onSubmit">
 				<van-checkbox
 					v-model="checked"
 					@click="checkAll"
@@ -70,21 +67,17 @@ export default {
 		this.show = !(JSON.stringify(this.$route.query) == "{}");
 		this.cart = JSON.parse(localStorage?.cart) || [];
 		// console.log(this.cart);
-		this.checked = this.cart.length
-			? this.cart.every((v) => v.check)
-			: false;
+		this.checked = this.cart.length ? this.cart.every(v => v.check) : false;
 	},
 	computed: {
 		price() {
 			let price = 0;
-			this.cart.forEach((v) => {
+			this.cart.forEach(v => {
 				if (v.check) {
 					price += v.price * v.num;
 				}
 			});
-			price = price.toFixed(2);
-			price = `${price}`.split(".").join("");
-			console.log(price);
+			price = `${price.toFixed(2)}`.split(".").join("");
 			return price * 1;
 		},
 	},
@@ -106,27 +99,27 @@ export default {
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 		radioCheck(item) {
-			let index = this.cart.findIndex((v) => {
+			let index = this.cart.findIndex(v => {
 				return (
 					v.gid == item.gid &&
 					JSON.stringify(v.suk) == JSON.stringify(item.suk)
 				);
 			});
 			this.cart[index].check = this.cart[index].check;
-			this.checked = this.cart.every((v) => v.check);
+			this.checked = this.cart.every(v => v.check);
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 		checkAll() {
 			this.checked = !this.checked;
 			this.checked = !this.checked;
-			this.cart.forEach((v) => {
+			this.cart.forEach(v => {
 				v.check = this.checked;
 			});
 			localStorage.cart = JSON.stringify(this.cart);
 		},
 		del(value) {
 			let index = this.cart.findIndex(
-				(v) => JSON.stringify(v) == JSON.stringify(value)
+				v => JSON.stringify(v) == JSON.stringify(value)
 			);
 			this.cart.splice(index, 1);
 			localStorage.cart = JSON.stringify(this.cart);
@@ -166,25 +159,20 @@ export default {
 	main {
 		flex: 1;
 		overflow: auto;
-
 		img {
 			width: 100%;
 		}
-
 		p {
 			text-align: center;
 		}
 	}
-
 	footer {
 		position: relative;
 	}
 }
-
 .van-card {
 	background: #fff;
 }
-
 .van-submit-bar {
 	position: relative;
 }
